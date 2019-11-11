@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Debug BuildVision": {
+      "commandName": "Executable",
+      "executablePath": "$(DevenvDir)devenv.exe",
+      "commandLineArgs": "/rootsuffix exp",
+      "environmentVariables": { }
+    }
+  }
+}
