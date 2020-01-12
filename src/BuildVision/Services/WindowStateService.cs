@@ -72,7 +72,7 @@ namespace BuildVision.Tool.Building
 
         private void MinimizeToolWindow()
         {
-            // Note: throws exception if _window.WindowState = vsWindowState.vsWindowStateMaximize 
+            // Note: throws exception if _window.WindowState = vsWindowState.vsWindowStateMaximize
             // or _window.IsFloating.
             _window.AutoHides = true;
 

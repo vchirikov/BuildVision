@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Threading;
 using BuildVision.Commands;
 using BuildVision.Common;
-using BuildVision.Common.Diagnostics;
 using BuildVision.Common.Logging;
 using BuildVision.Exports.Providers;
 using BuildVision.Tool;
@@ -73,8 +72,6 @@ namespace BuildVision.Core
             {
                 Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             }
-  
-            DiagnosticsClient.Initialize(GetEdition(), VisualStudioVersion.ToString(), "c437ad44-0c76-4006-968d-42d4369bc0ed");
         }
 
         public static Version VisualStudioVersion => GetGlobalService(typeof(DTE)) is DTE dte
@@ -97,8 +94,6 @@ namespace BuildVision.Core
         private void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             _logger.Fatal(e.Exception, "Unhandled Exception");
-            DiagnosticsClient.TrackException(e.Exception);
-            DiagnosticsClient.Flush();
         }
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
@@ -159,8 +154,6 @@ namespace BuildVision.Core
 
             _solutionBuildManager.UnadviseUpdateSolutionEvents(_updateSolutionEventsCookie);
             _solutionBuildManager4.UnadviseUpdateSolutionEvents4(_updateSolutionEvents4Cookie);
-
-            DiagnosticsClient.Flush();
         }
 
         private void CommandEvents_AfterExecute(string guid, int id, object customIn, object customOut)

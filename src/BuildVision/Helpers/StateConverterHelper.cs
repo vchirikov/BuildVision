@@ -1,4 +1,4 @@
-﻿using BuildVision.Common.Diagnostics;
+﻿using System.Diagnostics;
 using BuildVision.Contracts;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -22,7 +22,7 @@ namespace BuildVision.Tool.Models
             }
             else
             {
-                DiagnosticsClient.TrackTrace($"Received unknown DW Action {dwAction} (SolutionFlags: {solutionFlags}.");
+                Debug.WriteLine($"Received unknown DW Action {dwAction} (SolutionFlags: {solutionFlags}.");
                 return BuildAction.Unknown;
             }
         }

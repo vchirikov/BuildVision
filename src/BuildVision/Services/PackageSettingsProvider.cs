@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Windows;
 using BuildVision.Common;
-using BuildVision.Common.Diagnostics;
 using BuildVision.Common.Logging;
 using BuildVision.UI.Settings.Models;
 using Microsoft.VisualStudio.Settings;
@@ -32,8 +31,6 @@ namespace BuildVision.Views.Settings
         {
             SaveSettings();
             SettingsChanged?.Invoke();
-
-            DiagnosticsClient.ParticipateInTelemetry = Settings.GeneralSettings.ParticipateInTelemetry;
         }
 
         private void SaveSettings()
@@ -62,8 +59,6 @@ namespace BuildVision.Views.Settings
                 {
                     Settings = new ControlSettings();
                 }
-
-                DiagnosticsClient.ParticipateInTelemetry = Settings.GeneralSettings.ParticipateInTelemetry;
             }
             catch (Exception ex)
             {

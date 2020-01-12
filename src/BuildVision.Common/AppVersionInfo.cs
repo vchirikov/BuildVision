@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -16,7 +17,7 @@ namespace BuildVision.Common
             var assembly = Assembly.GetExecutingAssembly();
             var versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-            AppVersion = versionInfo.ProductVersion.ToString();
+            AppVersion = versionInfo.ProductVersion.ToString(CultureInfo.InvariantCulture);
             BuildVersion = new Version(versionInfo.FileVersion).ToString();
         }
     }

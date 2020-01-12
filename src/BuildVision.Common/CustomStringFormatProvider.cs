@@ -3,7 +3,7 @@
 namespace BuildVision.Common
 {
     /// <remarks>
-    /// U - String.ToUpper, 
+    /// U - String.ToUpper,
     /// L - String.ToLower
     /// </remarks>
     /// <example>
@@ -26,12 +26,12 @@ namespace BuildVision.Common
             if (format != null && arg is string)
             {
                 var strArg = (string)arg;
-                switch (format.ToUpper())
+                switch (format.ToUpperInvariant())
                 {
                     case "U":
-                        return strArg.ToUpper();
+                        return strArg.ToUpperInvariant();
                     case "L":
-                        return strArg.ToLower();
+                        return strArg.ToLowerInvariant();
                 }
             }
 

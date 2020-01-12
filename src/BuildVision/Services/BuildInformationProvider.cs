@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using BuildVision.Common;
-using BuildVision.Common.Diagnostics;
 using BuildVision.Common.Logging;
 using BuildVision.Contracts;
 using BuildVision.Contracts.Models;
@@ -47,7 +46,7 @@ namespace BuildVision.Core
 
         public IBuildInformationModel BuildInformationModel { get; } = new BuildInformationModel();
         public ObservableCollection<IProjectItem> Projects { get; } = new ObservableRangeCollection<IProjectItem>();
-        
+
         [ImportingConstructor]
         public BuildInformationProvider(
             [Import(typeof(IBuildOutputLogger))] IBuildOutputLogger buildOutputLogger,
@@ -203,13 +202,6 @@ namespace BuildVision.Core
             BuildInformationModel.StateMessage = _origTextCurrentState;
             UpdateTaskBar();
             BuildStateChanged();
-
-            DiagnosticsClient.TrackEvent("BuildStarted", new Dictionary<string, string>
-            {
-                { "BuildId", BuildInformationModel.BuildId.ToString() },
-                { "BuildAction", buildAction.ToString() },
-                { "BuildScope", buildScope.ToString() }
-            });
         }
 
         public void ProjectBuildStarted(IProjectItem projectItem, BuildAction buildAction)
@@ -252,7 +244,7 @@ namespace BuildVision.Core
 
             var currentProject = Projects.First(item => ProjectIdentifierGenerator.GetIdentifierForProjectItem(item) == projectIdentifier);
             currentProject.Success = success;
-            currentProject.State = GetProjectState(success, canceled, currentProject); 
+            currentProject.State = GetProjectState(success, canceled, currentProject);
             currentProject.BuildFinishTime = DateTime.Now;
 
             if (currentProject.State == ProjectState.BuildError && _packageSettingsProvider.Settings.GeneralSettings.StopBuildAfterFirstError)
@@ -357,18 +349,6 @@ namespace BuildVision.Core
             {
                 BuildInformationModel.CurrentBuildState = canceled ? BuildState.Cancelled : BuildState.Failed;
             }
-
-            DiagnosticsClient.TrackEvent("BuildFinished", new Dictionary<string, string>
-            {
-                { "BuildId", BuildInformationModel.BuildId.ToString() },
-                { "BuildAction", BuildInformationModel.BuildAction.ToString() },
-                { "BuildScope", BuildInformationModel.BuildScope.ToString() },
-                { "BuildState", BuildInformationModel.CurrentBuildState.ToString() },
-                { "BuildStartTime", BuildInformationModel.BuildStartTime.ToString() },
-                { "BuildFinishTime", BuildInformationModel.BuildFinishTime.ToString() },
-                { "ProjectsCount", Projects.Count.ToString() },
-            });
-
             var message = _buildMessagesFactory.GetBuildDoneMessage(BuildInformationModel);
             _statusBarNotificationService.ShowText(message);
             BuildInformationModel.StateMessage = message;

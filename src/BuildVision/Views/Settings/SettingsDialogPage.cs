@@ -1,13 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using Microsoft.VisualStudio.Shell;
 using BuildVision.Common;
-using BuildVision.Core;
 using BuildVision.UI.Settings.Models;
 using Microsoft;
-using BuildVision.Common.Diagnostics;
 
 namespace BuildVision.Views.Settings
 {
@@ -47,7 +44,6 @@ namespace BuildVision.Views.Settings
             }
 
             base.OnActivate(e);
-            DiagnosticsClient.TrackPageView(GetType().Name);
         }
 
         protected override void OnApply(PageApplyEventArgs args)
